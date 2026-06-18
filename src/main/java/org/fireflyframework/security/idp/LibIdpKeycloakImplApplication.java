@@ -15,9 +15,9 @@
  */
 
 
-package org.fireflyframework.idp;
+package org.fireflyframework.security.idp;
 
-import org.fireflyframework.idp.properties.KeycloakProperties;
+import org.fireflyframework.security.idp.properties.KeycloakProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

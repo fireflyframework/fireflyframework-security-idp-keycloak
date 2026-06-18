@@ -15,7 +15,7 @@
  */
 
 
-package org.fireflyframework.idp.adapter.exception;
+package org.fireflyframework.security.idp.adapter.exception;
 
 import jakarta.ws.rs.WebApplicationException;
 import lombok.extern.slf4j.Slf4j;

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.fireflyframework.idp.config;
+package org.fireflyframework.security.idp.config;
 
-import org.fireflyframework.idp.adapter.IdpAdapter;
-import org.fireflyframework.idp.adapter.impl.IdpAdapterImpl;
-import org.fireflyframework.idp.adapter.keycloak.KeycloakAPIFactory;
-import org.fireflyframework.idp.adapter.keycloak.KeycloakClientFactory;
-import org.fireflyframework.idp.adapter.service.IdpAdminService;
-import org.fireflyframework.idp.adapter.service.IdpUserService;
-import org.fireflyframework.idp.adapter.service.TokenService;
-import org.fireflyframework.idp.adapter.service.impl.IdpAdminServiceImpl;
-import org.fireflyframework.idp.adapter.service.impl.IdpUserServiceImpl;
-import org.fireflyframework.idp.adapter.service.impl.TokenServiceImpl;
-import org.fireflyframework.idp.properties.KeycloakProperties;
+import org.fireflyframework.security.idp.adapter.IdpAdapter;
+import org.fireflyframework.security.idp.adapter.impl.IdpAdapterImpl;
+import org.fireflyframework.security.idp.adapter.keycloak.KeycloakAPIFactory;
+import org.fireflyframework.security.idp.adapter.keycloak.KeycloakClientFactory;
+import org.fireflyframework.security.idp.adapter.service.IdpAdminService;
+import org.fireflyframework.security.idp.adapter.service.IdpUserService;
+import org.fireflyframework.security.idp.adapter.service.TokenService;
+import org.fireflyframework.security.idp.adapter.service.impl.IdpAdminServiceImpl;
+import org.fireflyframework.security.idp.adapter.service.impl.IdpUserServiceImpl;
+import org.fireflyframework.security.idp.adapter.service.impl.TokenServiceImpl;
+import org.fireflyframework.security.idp.properties.KeycloakProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

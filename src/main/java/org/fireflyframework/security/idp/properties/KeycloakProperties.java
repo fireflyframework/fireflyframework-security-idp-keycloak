@@ -15,7 +15,7 @@
  */
 
 
-package org.fireflyframework.idp.properties;
+package org.fireflyframework.security.idp.properties;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

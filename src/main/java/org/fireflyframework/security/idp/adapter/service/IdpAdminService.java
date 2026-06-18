@@ -15,9 +15,9 @@
  */
 
 
-package org.fireflyframework.idp.adapter.service;
+package org.fireflyframework.security.idp.adapter.service;
 
-import org.fireflyframework.idp.dtos.*;
+import org.fireflyframework.security.idp.dtos.*;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 

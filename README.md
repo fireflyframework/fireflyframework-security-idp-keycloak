@@ -1,6 +1,6 @@
 # Firefly Framework - IDP Keycloak Adapter
 
-[![CI](https://github.com/fireflyframework/fireflyframework-idp-keycloak/actions/workflows/ci.yml/badge.svg)](https://github.com/fireflyframework/fireflyframework-idp-keycloak/actions/workflows/ci.yml)
+[![CI](https://github.com/fireflyframework/fireflyframework-security-idp-keycloak/actions/workflows/ci.yml/badge.svg)](https://github.com/fireflyframework/fireflyframework-security-idp-keycloak/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/Java-21%2B-orange.svg)](https://openjdk.org)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green.svg)](https://spring.io/projects/spring-boot)
@@ -23,7 +23,7 @@
 
 ## Overview
 
-Firefly Framework IDP Keycloak is a **pluggable provider adapter** for the framework's identity-provider abstraction. It implements the `IdpAdapter` SPI defined in [`fireflyframework-idp`](https://github.com/fireflyframework/fireflyframework-idp) by translating the framework's provider-agnostic operations — authentication, token management, user and role administration, MFA and session control — into calls against a [Keycloak](https://www.keycloak.org/) server using the official **Keycloak Admin Client** and OIDC/OAuth2 endpoints.
+Firefly Framework IDP Keycloak is a **pluggable provider adapter** for the framework's identity-provider abstraction. It implements the `IdpAdapter` SPI defined in [`fireflyframework-security-idp`](https://github.com/fireflyframework/fireflyframework-security-idp) by translating the framework's provider-agnostic operations — authentication, token management, user and role administration, MFA and session control — into calls against a [Keycloak](https://www.keycloak.org/) server using the official **Keycloak Admin Client** and OIDC/OAuth2 endpoints.
 
 The adapter is fully reactive: every operation returns a Reactor `Mono`, and the Keycloak Admin Client calls are scheduled off the event loop so they integrate cleanly with Spring WebFlux applications. The core module ships the `IdpController` REST surface and the request/response DTOs; this module only supplies the Keycloak-backed implementation, so swapping providers is a configuration change rather than a code change.
 
@@ -33,10 +33,10 @@ This module is one of several interchangeable providers for the same SPI. Its si
 
 | Adapter | `firefly.idp.provider` value | Backing provider |
 | --- | --- | --- |
-| `fireflyframework-idp-keycloak` (this module) | `keycloak` | Keycloak |
-| `fireflyframework-idp-aws-cognito` | `cognito` | Amazon Cognito |
-| `fireflyframework-idp-azure-ad` | `azure-ad` | Microsoft Entra ID / Azure AD B2C |
-| `fireflyframework-idp-internal-db` | `internal-db` | Self-hosted database-backed IDP |
+| `fireflyframework-security-idp-keycloak` (this module) | `keycloak` | Keycloak |
+| `fireflyframework-security-idp-aws-cognito` | `cognito` | Amazon Cognito |
+| `fireflyframework-security-idp-azure-ad` | `azure-ad` | Microsoft Entra ID / Azure AD B2C |
+| `fireflyframework-security-idp-internal-db` | `internal-db` | Self-hosted database-backed IDP |
 
 ## Features
 
@@ -67,13 +67,13 @@ Add the adapter alongside the IDP core. Both artifacts share the `org.fireflyfra
     <!-- IDP core SPI + REST controller + DTOs -->
     <dependency>
         <groupId>org.fireflyframework</groupId>
-        <artifactId>fireflyframework-idp</artifactId>
+        <artifactId>fireflyframework-security-idp</artifactId>
     </dependency>
 
     <!-- Keycloak provider adapter (this module) -->
     <dependency>
         <groupId>org.fireflyframework</groupId>
-        <artifactId>fireflyframework-idp-keycloak</artifactId>
+        <artifactId>fireflyframework-security-idp-keycloak</artifactId>
     </dependency>
 </dependencies>
 ```
@@ -98,9 +98,9 @@ firefly:
 **2. Inject the `IdpAdapter` and call it** — the same provider-agnostic API works for every IDP backend:
 
 ```java
-import org.fireflyframework.idp.adapter.IdpAdapter;
-import org.fireflyframework.idp.dtos.LoginRequest;
-import org.fireflyframework.idp.dtos.TokenResponse;
+import org.fireflyframework.security.idp.adapter.IdpAdapter;
+import org.fireflyframework.security.idp.dtos.LoginRequest;
+import org.fireflyframework.security.idp.dtos.TokenResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -123,7 +123,7 @@ public class AuthService {
 }
 ```
 
-Because the contract lives in `fireflyframework-idp`, switching to Cognito, Azure AD, or the internal-db provider is just a dependency swap plus a change to `firefly.idp.provider` — your application code is untouched.
+Because the contract lives in `fireflyframework-security-idp`, switching to Cognito, Azure AD, or the internal-db provider is just a dependency swap plus a change to `firefly.idp.provider` — your application code is untouched.
 
 ## Configuration
 
@@ -159,8 +159,8 @@ Validation fails fast on startup if `server-url`, `realm`, or `client-id` are bl
 ## Documentation
 
 - Framework documentation hub and module catalog: [github.com/fireflyframework](https://github.com/fireflyframework)
-- IDP core SPI and DTOs: [`fireflyframework-idp`](https://github.com/fireflyframework/fireflyframework-idp)
-- Sibling adapters: [`fireflyframework-idp-aws-cognito`](https://github.com/fireflyframework/fireflyframework-idp-aws-cognito), [`fireflyframework-idp-azure-ad`](https://github.com/fireflyframework/fireflyframework-idp-azure-ad), [`fireflyframework-idp-internal-db`](https://github.com/fireflyframework/fireflyframework-idp-internal-db)
+- IDP core SPI and DTOs: [`fireflyframework-security-idp`](https://github.com/fireflyframework/fireflyframework-security-idp)
+- Sibling adapters: [`fireflyframework-security-idp-aws-cognito`](https://github.com/fireflyframework/fireflyframework-security-idp-aws-cognito), [`fireflyframework-security-idp-azure-ad`](https://github.com/fireflyframework/fireflyframework-security-idp-azure-ad), [`fireflyframework-security-idp-internal-db`](https://github.com/fireflyframework/fireflyframework-security-idp-internal-db)
 
 ## Contributing
 
