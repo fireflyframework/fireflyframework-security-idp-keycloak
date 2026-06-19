@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-@ConfigurationProperties(prefix = "firefly.idp.keycloak")
+@ConfigurationProperties(prefix = "firefly.security.idp.keycloak")
 public record KeycloakProperties(
         @NotBlank String serverUrl,
         @NotBlank String realm,

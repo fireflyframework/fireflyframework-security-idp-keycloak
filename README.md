@@ -27,11 +27,11 @@ Firefly Framework IDP Keycloak is a **pluggable provider adapter** for the frame
 
 The adapter is fully reactive: every operation returns a Reactor `Mono`, and the Keycloak Admin Client calls are scheduled off the event loop so they integrate cleanly with Spring WebFlux applications. The core module ships the `IdpController` REST surface and the request/response DTOs; this module only supplies the Keycloak-backed implementation, so swapping providers is a configuration change rather than a code change.
 
-Adapter selection is driven by a single property. Adding this dependency and setting `firefly.idp.provider=keycloak` activates `KeycloakAutoConfiguration`, which registers the full bean graph (`IdpAdapter`, the user/admin/token services, the Keycloak client factories, and a permissive CORS `WebFilter`). The auto-configuration is also guarded by `@ConditionalOnClass(Keycloak.class)`, so it stays inert unless the Keycloak Admin Client is on the classpath.
+Adapter selection is driven by a single property. Adding this dependency and setting `firefly.security.idp.provider=keycloak` activates `KeycloakAutoConfiguration`, which registers the full bean graph (`IdpAdapter`, the user/admin/token services, the Keycloak client factories, and a permissive CORS `WebFilter`). The auto-configuration is also guarded by `@ConditionalOnClass(Keycloak.class)`, so it stays inert unless the Keycloak Admin Client is on the classpath.
 
-This module is one of several interchangeable providers for the same SPI. Its siblings select with the same `firefly.idp.provider` switch:
+This module is one of several interchangeable providers for the same SPI. Its siblings select with the same `firefly.security.idp.provider` switch:
 
-| Adapter | `firefly.idp.provider` value | Backing provider |
+| Adapter | `firefly.security.idp.provider` value | Backing provider |
 | --- | --- | --- |
 | `fireflyframework-security-idp-keycloak` (this module) | `keycloak` | Keycloak |
 | `fireflyframework-security-idp-aws-cognito` | `cognito` | Amazon Cognito |
@@ -49,7 +49,7 @@ This module is one of several interchangeable providers for the same SPI. Its si
 - **Validated configuration** — `KeycloakProperties` is a `@Validated` record that fails fast on missing `server-url`, `realm`, or `client-id` and auto-normalizes the server URL.
 - **Consistent error handling** — `KeycloakExceptionHandler` maps Keycloak failures to standardized framework responses.
 - **CORS out of the box** — a permissive reactive `CorsWebFilter` is registered for cross-origin clients (override by supplying your own bean).
-- **Zero-code activation** — Spring Boot auto-configuration (`KeycloakAutoConfiguration`) wires everything when `firefly.idp.provider=keycloak`; every bean is `@ConditionalOnMissingBean`, so any piece can be overridden.
+- **Zero-code activation** — Spring Boot auto-configuration (`KeycloakAutoConfiguration`) wires everything when `firefly.security.idp.provider=keycloak`; every bean is `@ConditionalOnMissingBean`, so any piece can be overridden.
 
 ## Requirements
 
@@ -123,11 +123,11 @@ public class AuthService {
 }
 ```
 
-Because the contract lives in `fireflyframework-security-idp`, switching to Cognito, Azure AD, or the internal-db provider is just a dependency swap plus a change to `firefly.idp.provider` — your application code is untouched.
+Because the contract lives in `fireflyframework-security-idp`, switching to Cognito, Azure AD, or the internal-db provider is just a dependency swap plus a change to `firefly.security.idp.provider` — your application code is untouched.
 
 ## Configuration
 
-All properties live under the `firefly.idp.keycloak.*` prefix and are bound by the validated `KeycloakProperties` record. Provider selection itself is the top-level `firefly.idp.provider` switch.
+All properties live under the `firefly.security.idp.keycloak.*` prefix and are bound by the validated `KeycloakProperties` record. Provider selection itself is the top-level `firefly.security.idp.provider` switch.
 
 ```yaml
 firefly:
@@ -145,14 +145,14 @@ firefly:
 
 | Property | Required | Default | Description |
 | --- | --- | --- | --- |
-| `firefly.idp.provider` | yes | — | Provider selector; set to `keycloak` to activate this adapter. |
-| `firefly.idp.keycloak.server-url` | yes | — | Base URL of the Keycloak server. Trailing slash is added automatically if missing. |
-| `firefly.idp.keycloak.realm` | yes | — | Keycloak realm used for authentication and administration. |
-| `firefly.idp.keycloak.client-id` | yes | — | OAuth2 client id used by the adapter. |
-| `firefly.idp.keycloak.client-secret` | no | — | Client secret; required for the client-credentials grant used by admin operations. |
-| `firefly.idp.keycloak.connection-pool-size` | no | `10` | Maximum size of the HTTP connection pool to Keycloak (must be positive). |
-| `firefly.idp.keycloak.connection-timeout` | no | `30000` | Connection timeout in milliseconds (must be positive). |
-| `firefly.idp.keycloak.request-timeout` | no | `60000` | Request timeout in milliseconds (must be positive). |
+| `firefly.security.idp.provider` | yes | — | Provider selector; set to `keycloak` to activate this adapter. |
+| `firefly.security.idp.keycloak.server-url` | yes | — | Base URL of the Keycloak server. Trailing slash is added automatically if missing. |
+| `firefly.security.idp.keycloak.realm` | yes | — | Keycloak realm used for authentication and administration. |
+| `firefly.security.idp.keycloak.client-id` | yes | — | OAuth2 client id used by the adapter. |
+| `firefly.security.idp.keycloak.client-secret` | no | — | Client secret; required for the client-credentials grant used by admin operations. |
+| `firefly.security.idp.keycloak.connection-pool-size` | no | `10` | Maximum size of the HTTP connection pool to Keycloak (must be positive). |
+| `firefly.security.idp.keycloak.connection-timeout` | no | `30000` | Connection timeout in milliseconds (must be positive). |
+| `firefly.security.idp.keycloak.request-timeout` | no | `60000` | Request timeout in milliseconds (must be positive). |
 
 Validation fails fast on startup if `server-url`, `realm`, or `client-id` are blank, or if any timeout/pool value is non-positive.
 

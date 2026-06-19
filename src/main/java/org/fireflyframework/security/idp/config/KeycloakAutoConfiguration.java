@@ -44,7 +44,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
  * Registers all Keycloak adapter beans when the keycloak provider is selected.
  */
 @AutoConfiguration
-@ConditionalOnProperty(name = "firefly.idp.provider", havingValue = "keycloak")
+@ConditionalOnProperty(name = "firefly.security.idp.provider", havingValue = "keycloak")
 @ConditionalOnClass(Keycloak.class)
 @EnableConfigurationProperties(KeycloakProperties.class)
 @Slf4j
