@@ -15,7 +15,7 @@
  */
 
 
-package org.fireflyframework.idp.properties;
+package org.fireflyframework.security.idp.properties;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-@ConfigurationProperties(prefix = "firefly.idp.keycloak")
+@ConfigurationProperties(prefix = "firefly.security.idp.keycloak")
 public record KeycloakProperties(
         @NotBlank String serverUrl,
         @NotBlank String realm,

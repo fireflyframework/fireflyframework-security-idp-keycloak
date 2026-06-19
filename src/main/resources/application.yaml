@@ -1,6 +1,6 @@
 spring:
   application:
-    name: fireflyframework-idp-keycloak-impl
+    name: fireflyframework-security-idp-keycloak-impl
     version: 1.0.0
     description: IDP Keycloak Implementation
     team:

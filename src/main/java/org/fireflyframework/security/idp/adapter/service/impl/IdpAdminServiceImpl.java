@@ -15,13 +15,13 @@
  */
 
 
-package org.fireflyframework.idp.adapter.service.impl;
+package org.fireflyframework.security.idp.adapter.service.impl;
 
-import org.fireflyframework.idp.adapter.exception.KeycloakExceptionHandler;
-import org.fireflyframework.idp.adapter.keycloak.KeycloakClientFactory;
-import org.fireflyframework.idp.adapter.service.IdpAdminService;
-import org.fireflyframework.idp.adapter.service.TokenService;
-import org.fireflyframework.idp.dtos.*;
+import org.fireflyframework.security.idp.adapter.exception.KeycloakExceptionHandler;
+import org.fireflyframework.security.idp.adapter.keycloak.KeycloakClientFactory;
+import org.fireflyframework.security.idp.adapter.service.IdpAdminService;
+import org.fireflyframework.security.idp.adapter.service.TokenService;
+import org.fireflyframework.security.idp.dtos.*;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -209,12 +209,6 @@ public class IdpAdminServiceImpl implements IdpAdminService {
             if (request.getAttributes() != null) {
                 request.getAttributes().forEach((k, v) ->
                         userAttributes.put(k, List.of(String.valueOf(v))));
-            }
-            if (request.getPartyId() != null) {
-                userAttributes.put("partyId", List.of(request.getPartyId().toString()));
-            }
-            if (request.getUserRole() != null) {
-                userAttributes.put("userRole", List.of(request.getUserRole().toString()));
             }
             user.setAttributes(userAttributes);
 

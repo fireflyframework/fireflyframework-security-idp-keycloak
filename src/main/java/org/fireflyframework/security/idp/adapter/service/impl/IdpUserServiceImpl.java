@@ -15,12 +15,12 @@
  */
 
 
-package org.fireflyframework.idp.adapter.service.impl;
+package org.fireflyframework.security.idp.adapter.service.impl;
 
-import org.fireflyframework.idp.adapter.exception.KeycloakExceptionHandler;
-import org.fireflyframework.idp.adapter.keycloak.KeycloakAPIFactory;
-import org.fireflyframework.idp.adapter.service.IdpUserService;
-import org.fireflyframework.idp.dtos.*;
+import org.fireflyframework.security.idp.adapter.exception.KeycloakExceptionHandler;
+import org.fireflyframework.security.idp.adapter.keycloak.KeycloakAPIFactory;
+import org.fireflyframework.security.idp.adapter.service.IdpUserService;
+import org.fireflyframework.security.idp.dtos.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

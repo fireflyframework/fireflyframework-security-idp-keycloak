@@ -15,9 +15,9 @@
  */
 
 
-package org.fireflyframework.idp.adapter.service.impl;
+package org.fireflyframework.security.idp.adapter.service.impl;
 
-import org.fireflyframework.idp.adapter.service.TokenService;
+import org.fireflyframework.security.idp.adapter.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.TokenVerifier;
 import org.keycloak.common.VerificationException;

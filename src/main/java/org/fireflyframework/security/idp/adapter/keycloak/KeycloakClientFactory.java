@@ -15,10 +15,10 @@
  */
 
 
-package org.fireflyframework.idp.adapter.keycloak;
+package org.fireflyframework.security.idp.adapter.keycloak;
 
-import org.fireflyframework.idp.dtos.LoginRequest;
-import org.fireflyframework.idp.properties.KeycloakProperties;
+import org.fireflyframework.security.idp.dtos.LoginRequest;
+import org.fireflyframework.security.idp.properties.KeycloakProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;

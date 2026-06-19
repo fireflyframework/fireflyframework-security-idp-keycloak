@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <artifactId>fireflyframework-idp-keycloak</artifactId>
+    <artifactId>fireflyframework-security-idp-keycloak</artifactId>
     <version>26.06.01</version>
     <packaging>jar</packaging>
 
@@ -19,7 +19,7 @@
     <description>Keycloak identity provider integration for the Firefly Framework</description>
 
     <properties>
-        <fireflyframework-idp.version>26.06.01</fireflyframework-idp.version>
+        <fireflyframework-security-idp.version>26.06.01</fireflyframework-security-idp.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <keycloak.admin.version>26.0.8</keycloak.admin.version>
     </properties>
@@ -28,8 +28,8 @@
     <dependencies>
         <dependency>
             <groupId>org.fireflyframework</groupId>
-            <artifactId>fireflyframework-idp</artifactId>
-            <version>${fireflyframework-idp.version}</version>
+            <artifactId>fireflyframework-security-idp</artifactId>
+            <version>${fireflyframework-security-idp.version}</version>
         </dependency>
 
         <!-- Keycloak admin client -->

@@ -15,12 +15,12 @@
  */
 
 
-package org.fireflyframework.idp.adapter.impl;
+package org.fireflyframework.security.idp.adapter.impl;
 
-import org.fireflyframework.idp.adapter.IdpAdapter;
-import org.fireflyframework.idp.adapter.service.IdpAdminService;
-import org.fireflyframework.idp.adapter.service.IdpUserService;
-import org.fireflyframework.idp.dtos.*;
+import org.fireflyframework.security.idp.adapter.IdpAdapter;
+import org.fireflyframework.security.idp.adapter.service.IdpAdminService;
+import org.fireflyframework.security.idp.adapter.service.IdpUserService;
+import org.fireflyframework.security.idp.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
