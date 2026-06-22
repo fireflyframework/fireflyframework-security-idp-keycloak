@@ -135,7 +135,9 @@ public class IdpUserServiceImpl implements IdpUserService {
     public Mono<Void> revokeRefreshToken(String refreshToken) {
         return keycloakAPIFactory.tokenWebClient()
                 .post()
-                .uri("/token/revocation")
+                // Keycloak's RFC 7009 revocation endpoint is /protocol/openid-connect/revoke
+                // (the tokenWebClient base URL already ends in /protocol/openid-connect).
+                .uri("/revoke")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .body(BodyInserters.fromFormData(keycloakAPIFactory.revocationBody(refreshToken)))
                 .retrieve()

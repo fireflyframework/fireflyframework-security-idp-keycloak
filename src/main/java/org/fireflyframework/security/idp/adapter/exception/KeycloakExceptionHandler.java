@@ -21,6 +21,7 @@ import jakarta.ws.rs.WebApplicationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 /**
  * Utility class for handling Keycloak exceptions in a consistent way.
@@ -38,6 +39,15 @@ public final class KeycloakExceptionHandler {
     public static <T> ResponseEntity<T> handleException(Throwable throwable) {
         if (throwable instanceof WebApplicationException wae) {
             return handleWebApplicationException(wae);
+        }
+
+        // Calls made through Spring's reactive WebClient (token introspection, user-info,
+        // revocation) fail with WebClientResponseException. Propagate the real downstream status
+        // (e.g. 401/403/404 from Keycloak's OIDC endpoints) instead of collapsing it into 500.
+        if (throwable instanceof WebClientResponseException wcre) {
+            log.warn("Keycloak OIDC request failed with status {}: {}",
+                    wcre.getStatusCode().value(), wcre.getMessage());
+            return ResponseEntity.status(wcre.getStatusCode()).build();
         }
 
         log.error("Unexpected error in Keycloak operation", throwable);
