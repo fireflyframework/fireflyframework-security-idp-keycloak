@@ -204,11 +204,24 @@ public class IdpAdminServiceImpl implements IdpAdminService {
             user.setUsername(request.getUsername());
             user.setEmail(request.getEmail());
             user.setEnabled(true);
+            if (request.getGivenName() != null) {
+                user.setFirstName(request.getGivenName());
+            }
+            if (request.getFamilyName() != null) {
+                user.setLastName(request.getFamilyName());
+            }
 
             Map<String, List<String>> userAttributes = new HashMap<>();
             if (request.getAttributes() != null) {
-                request.getAttributes().forEach((k, v) ->
-                        userAttributes.put(k, List.of(String.valueOf(v))));
+                // A value may be a single scalar or already a collection (e.g. a multivalued attribute
+                // like tenant_ids). Preserve list elements instead of String.valueOf(list) -> "[a, b]".
+                request.getAttributes().forEach((k, v) -> {
+                    if (v instanceof Collection<?> values) {
+                        userAttributes.put(k, values.stream().map(String::valueOf).toList());
+                    } else {
+                        userAttributes.put(k, List.of(String.valueOf(v)));
+                    }
+                });
             }
             user.setAttributes(userAttributes);
 
