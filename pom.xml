@@ -12,10 +12,7 @@
     </parent>
 
     <artifactId>fireflyframework-security-idp-keycloak</artifactId>
-    <!-- Dev version, distinct from 26.06.02 so it coexists in .m2 without overwriting the release.
-         Fix: multivalued attributes (e.g. tenant_ids) were serialized via String.valueOf(list); plus
-         createUser now propagates firstName/lastName. -->
-    <version>26.06.03-SNAPSHOT</version>
+    <version>26.06.02</version>
     <packaging>jar</packaging>
 
     <name>Firefly Framework - IDP Keycloak</name>
@@ -27,21 +24,6 @@
         <keycloak.admin.version>26.0.8</keycloak.admin.version>
     </properties>
 
-    <!--
-        This module is 26.06.03-SNAPSHOT but every other framework module it (transitively) pulls is the
-        unchanged 26.06.02 release. fireflyframework-parent manages the platform to ${project.version},
-        which leaks 26.06.03-SNAPSHOT to transitive framework deps (e.g. observability); import the BOM
-        to pin them all back to 26.06.02.
-    -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.fireflyframework</groupId>
-                <artifactId>fireflyframework-observability</artifactId>
-                <version>26.06.02</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
