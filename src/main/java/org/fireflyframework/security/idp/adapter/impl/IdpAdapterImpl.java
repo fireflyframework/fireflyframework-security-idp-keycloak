@@ -79,6 +79,11 @@ public class IdpAdapterImpl implements IdpAdapter {
     }
 
     @Override
+    public Mono<String> assignTemporaryPassword(String userId) {
+        return adminService.assignTemporaryPassword(userId);
+    }
+
+    @Override
     public Mono<ResponseEntity<MfaChallengeResponse>> mfaChallenge(String username) {
         return adminService.mfaChallenge(username);
     }

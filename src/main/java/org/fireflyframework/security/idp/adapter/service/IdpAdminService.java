@@ -31,6 +31,8 @@ public interface IdpAdminService {
 
     Mono<Void> resetPassword(String username);
 
+    Mono<String> assignTemporaryPassword(String userId);
+
     Mono<ResponseEntity<MfaChallengeResponse>> mfaChallenge(String username);
 
     Mono<Void> mfaVerify(MfaVerifyRequest request);

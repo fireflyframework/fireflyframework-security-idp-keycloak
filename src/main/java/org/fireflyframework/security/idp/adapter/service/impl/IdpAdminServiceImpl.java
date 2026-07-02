@@ -86,6 +86,30 @@ public class IdpAdminServiceImpl implements IdpAdminService {
     }
 
     @Override
+    public Mono<String> assignTemporaryPassword(String userId) {
+        // Unlike resetPassword above, errors here are propagated (not swallowed): the caller relays the
+        // returned secret out-of-band, so a silent failure would leave an unusable account.
+        return Mono.fromCallable(() -> performAssignTemporaryPassword(userId));
+    }
+
+    private String performAssignTemporaryPassword(String userId) {
+        log.debug("Assigning temporary password for userId: {}", userId);
+        if (userId == null || userId.isBlank()) {
+            throw new WebApplicationException("userId cannot be null or empty");
+        }
+        // Mixed-case + digit + symbol so it satisfies any realm password policy; single use.
+        String temporaryPassword = "Aa1!" + UUID.randomUUID().toString().replace("-", "").substring(0, 12);
+        try (Keycloak keycloak = keycloakFactory.createClientCredentialsClient()) {
+            CredentialRepresentation credential = new CredentialRepresentation();
+            credential.setType(CredentialRepresentation.PASSWORD);
+            credential.setValue(temporaryPassword);
+            credential.setTemporary(true);
+            keycloak.realm(keycloakFactory.getRealm()).users().get(userId).resetPassword(credential);
+        }
+        return temporaryPassword;
+    }
+
+    @Override
     public Mono<ResponseEntity<MfaChallengeResponse>> mfaChallenge(String username) {
         return Mono.error(new UnsupportedOperationException("mfaChallenge not implemented"));
     }
