@@ -217,6 +217,29 @@ public class IdpAdminServiceImpl implements IdpAdminService {
         });
     }
 
+    @Override
+    public Mono<ResponseEntity<List<String>>> listRoles() {
+        return Mono.fromCallable(this::performListRoles)
+                .map(ResponseEntity::ok)
+                .onErrorResume(throwable -> {
+                    log.error("Error listing realm roles", throwable);
+                    return Mono.just(KeycloakExceptionHandler.handleException(throwable));
+                });
+    }
+
+    @Override
+    public Mono<Void> deleteRole(String roleName) {
+        return Mono.<Void>fromRunnable(() -> performDeleteRole(roleName))
+                .doOnError(t -> log.error("Error deleting realm role: {}", roleName, t));
+    }
+
+    @Override
+    public Mono<Void> updateRole(UpdateRoleRequest request) {
+        return Mono.<Void>fromRunnable(() -> performUpdateRole(request))
+                .doOnError(t -> log.error("Error updating realm role: {}",
+                        request == null ? null : request.getName(), t));
+    }
+
     // Private methods for business logic
 
     private CreateUserResponse performCreateUser(CreateUserRequest request) {
@@ -528,6 +551,52 @@ public class IdpAdminServiceImpl implements IdpAdminService {
         CreateRolesResponse response = new CreateRolesResponse();
         response.setCreatedRoleNames(createdRoles);
         return response;
+    }
+
+    private List<String> performListRoles() {
+        log.debug("Listing realm roles");
+
+        try (Keycloak keycloak = keycloakFactory.createClientCredentialsClient()) {
+            RealmResource realmResource = keycloak.realm(keycloakFactory.getRealm());
+            return realmResource.roles().list().stream()
+                    .map(RoleRepresentation::getName)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toCollection(LinkedHashSet::new),
+                            List::copyOf));
+        }
+    }
+
+    private void performDeleteRole(String roleName) {
+        log.debug("Deleting realm role: {}", roleName);
+
+        if (roleName == null || roleName.isBlank()) {
+            throw new WebApplicationException("roleName cannot be null or empty");
+        }
+
+        try (Keycloak keycloak = keycloakFactory.createClientCredentialsClient()) {
+            RealmResource realmResource = keycloak.realm(keycloakFactory.getRealm());
+            realmResource.roles().deleteRole(roleName);
+        }
+    }
+
+    private void performUpdateRole(UpdateRoleRequest request) {
+        log.debug("Updating realm role: {}", request == null ? null : request.getName());
+
+        if (request == null || request.getName() == null || request.getName().isBlank()) {
+            throw new WebApplicationException("role name cannot be null or empty");
+        }
+
+        try (Keycloak keycloak = keycloakFactory.createClientCredentialsClient()) {
+            RealmResource realmResource = keycloak.realm(keycloakFactory.getRealm());
+            RoleRepresentation role = realmResource.roles().get(request.getName()).toRepresentation();
+            if (role == null) {
+                throw new WebApplicationException("Role not found: " + request.getName(), 404);
+            }
+            if (request.getNewName() != null) role.setName(request.getNewName());
+            if (request.getDescription() != null) role.setDescription(request.getDescription());
+            realmResource.roles().get(request.getName()).update(role);
+        }
     }
 
     private CreateScopeResponse performCreateScope(CreateScopeRequest request) {

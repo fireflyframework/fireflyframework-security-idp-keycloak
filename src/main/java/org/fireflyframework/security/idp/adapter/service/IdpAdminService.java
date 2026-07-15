@@ -55,4 +55,10 @@ public interface IdpAdminService {
     Mono<Void> assignRolesToUser(AssignRolesRequest request);
 
     Mono<Void> removeRolesFromUser(AssignRolesRequest request);
+
+    Mono<ResponseEntity<List<String>>> listRoles();
+
+    Mono<Void> deleteRole(String roleName);
+
+    Mono<Void> updateRole(UpdateRoleRequest request);
 }

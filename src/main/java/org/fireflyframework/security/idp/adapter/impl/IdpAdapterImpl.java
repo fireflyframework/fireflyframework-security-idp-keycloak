@@ -142,4 +142,19 @@ public class IdpAdapterImpl implements IdpAdapter {
     public Mono<Void> removeRolesFromUser(AssignRolesRequest request) {
         return adminService.removeRolesFromUser(request);
     }
+
+    @Override
+    public Mono<ResponseEntity<List<String>>> listRoles() {
+        return adminService.listRoles();
+    }
+
+    @Override
+    public Mono<Void> deleteRole(String roleName) {
+        return adminService.deleteRole(roleName);
+    }
+
+    @Override
+    public Mono<Void> updateRole(UpdateRoleRequest request) {
+        return adminService.updateRole(request);
+    }
 }
